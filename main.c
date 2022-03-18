@@ -25,18 +25,19 @@ int 	main()
 	{
 		mat.matrix_ptr[i] = (float*)malloc(sizeof(float) * mat.num_rows);
 		for (size_t j = 0; j < mat.num_rows; j++)
-			mat.matrix_ptr[i][j] = (float)(rand() % 100);//-10 + 20*(float)rand();
+		{
+			if (rand() % 10 == 0)
+				mat.matrix_ptr[i][j] = 0;
+			else
+				mat.matrix_ptr[i][j] = (float)(rand() % 100);
+		}
 	}
-	mat.matrix_ptr[1][1] = 0;
-	mat.matrix_ptr[4][3] = 0;
-	mat.matrix_ptr[7][2] = 0;
-	mat.matrix_ptr[9][5] = 0;
 
 	printf("\n=======INPUT=======\n");
 	print_matrix(&mat);
 
 	t_matrix new_matrix;
-	delete_matrix_rows_and_cols_with_null_elements(&mat, &new_matrix);
+	delete_matrix_rows_and_cols_with_zero(&mat, &new_matrix);
 
 	printf("\n=======OUTPUT=======\n");
 	print_matrix(&new_matrix);

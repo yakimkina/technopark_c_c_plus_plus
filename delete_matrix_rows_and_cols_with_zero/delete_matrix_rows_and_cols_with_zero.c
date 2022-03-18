@@ -71,34 +71,36 @@ void	find_zeros(t_matrix *src, char *cols, char *rows)
 		}
 }
 
-void	delete_matrix_rows_and_cols_with_null_elements(t_matrix *matrix_src, t_matrix *matrix_dst)
+void	delete_matrix_rows_and_cols_with_zero(t_matrix *matrix_src, t_matrix *matrix_dst)
 {
 	// check valid input data
 	if (check_null_pointer(matrix_src, "[ERROR] No source matrix was passed.")
 		|| check_null_pointer(matrix_src->matrix_ptr, "[ERROR] Passed matrix is empty.")
 		|| check_null_pointer(matrix_dst, "[ERROR] No destination matrix was passed."))
-	{
-		make_null_matrix(matrix_dst);
 		return;
-	}
 
 	// check valid input matrix size
 	if (matrix_src->num_rows == 0 || matrix_src->num_cols == 0)
 	{
 		print_error("[ERROR] Size passed equals zero.");
+		make_null_matrix(matrix_dst);
 		return;
 	}
 
 	// creating array, which would store flags 0 and 1: 1 if row in matrix_src have at least one zero, 0 otherwise
 	char *rows_is_zero = (char*)calloc(matrix_src->num_rows, sizeof(char));
 	if (check_null_pointer(rows_is_zero, "[ERROR] Error during allocating memory: rows_is_zero."))
+	{
+		make_null_matrix(matrix_dst);
 		return;
+	}
 
 	// creating array, which would store flags 0 and 1: 1 if column in matrix_src have at least one zero, 0 otherwise
 	char *cols_is_zero = (char*)calloc(matrix_src->num_cols, sizeof(char));
 	if (check_null_pointer(rows_is_zero, "[ERROR] Error during allocating memory: cols_is_zero."))
 	{
 		free(rows_is_zero);
+		make_null_matrix(matrix_dst);
 		return;
 	}
 
@@ -110,6 +112,7 @@ void	delete_matrix_rows_and_cols_with_null_elements(t_matrix *matrix_src, t_matr
 	{
 		free(rows_is_zero);
 		free(cols_is_zero);
+		make_null_matrix(matrix_dst);
 		return;
 	}
 

@@ -16,7 +16,7 @@ typedef struct	s_matrix
 	size_t	num_cols;
 }				t_matrix;
 
-void	delete_matrix_rows_and_cols_with_null_elements(t_matrix *src, t_matrix *dst);
+void	delete_matrix_rows_and_cols_with_zero(t_matrix *matrix_src, t_matrix *matrix_dst);
 
 char	check_null_pointer(const void *obj, char *string_output);
 void	free_recursive(void **obj, size_t size);
