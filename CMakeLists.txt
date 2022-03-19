@@ -11,7 +11,6 @@ option(SANITIZERS OFF)
 if (TEST_MODE)
 	set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-fprofile-arcs -ftest-coverage -fPIC -O0")
 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" )
-	add_subdirectory(tests)
 endif(TEST_MODE)
 
 if (FBINFER)
@@ -28,3 +27,8 @@ add_executable(${PROJECT_NAME} main.c)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${DELETE_MATRIX_LIB_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DELETE_MATRIX_LIB_LIBRARIES})
+
+if (TEST_MODE)
+	add_subdirectory(tests)
+endif(TEST_MODE)
+
