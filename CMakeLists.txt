@@ -1,16 +1,28 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(delete_matrix)
 
-option()
-
+# set(CC "gcc")
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wall -Wpedantic -Wextra -Werror")
-#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" )
+
+option(TEST_MODE OFF)
+option(FBINFER OFF)
+option(SANITIZERS OFF)
+
+if (TEST_MODE)
+	set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-fprofile-arcs -ftest-coverage -fPIC -O0")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" )
+	add_subdirectory(tests)
+endif(TEST_MODE)
+
+if (FBINFER)
+	set(CMAKE_C_COMPILER "infer run -- ${CMAKE_C_COMPILER}")
+endif(FBINFER)
+
+if (SANITIZERS)
+	add_compile_options(-fno-sanitize-recover=all -fsanitize-undefined-trap-on-error -fsanitize=$(SANITIZERS))
+endif(SANITIZERS)
 
 add_subdirectory(delete_matrix_rows_and_cols_with_zero)
-#add_subdirectory(tests)
-
-message("DELETING_MATRIX_LIB_INCLUDE_DIRS = ${DELETE_MATRIX_LIB_INCLUDE_DIRS}")
-message("DELETING_MATRIX_LIB_LIBRARIES = ${DELETE_MATRIX_LIB_LIBRARIES}")
 
 add_executable(${PROJECT_NAME} main.c)
 

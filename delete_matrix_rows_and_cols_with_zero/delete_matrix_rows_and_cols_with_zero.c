@@ -1,4 +1,4 @@
-//
+// Copyright [2022] <Polina Yakimkina>
 // Created by Polina Yakimkina on 17.03.2022.
 //
 
@@ -97,7 +97,7 @@ void	delete_matrix_rows_and_cols_with_zero(t_matrix *matrix_src, t_matrix *matri
 
 	// creating array, which would store flags 0 and 1: 1 if column in matrix_src have at least one zero, 0 otherwise
 	char *cols_is_zero = (char*)calloc(matrix_src->num_cols, sizeof(char));
-	if (check_null_pointer(rows_is_zero, "[ERROR] Error during allocating memory: cols_is_zero."))
+	if (check_null_pointer(cols_is_zero, "[ERROR] Error during allocating memory: cols_is_zero."))
 	{
 		free(rows_is_zero);
 		make_null_matrix(matrix_dst);

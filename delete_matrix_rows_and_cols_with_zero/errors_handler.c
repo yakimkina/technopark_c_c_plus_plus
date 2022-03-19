@@ -1,4 +1,4 @@
-//
+// Copyright [2022] <Polina Yakimkina>
 // Created by Polina Yakimkina on 18.03.2022.
 //
 

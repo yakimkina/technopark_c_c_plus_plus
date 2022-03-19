@@ -4,3 +4,6 @@ Dockerfile
 cmake-build-debug*
 .vscode
 .devcontainer
+report
+coverage.info
+infer-out
