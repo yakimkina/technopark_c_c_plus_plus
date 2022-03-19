@@ -12,7 +12,7 @@ jobs:
         run: sudo apt update -y && sudo apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint
       
       - name: tests
-        run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON . && ls && ./tests/tests_delete_matrix && lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && genhtml -o report coverage.info 
+        run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON . && cd .. && tree && ./tests/tests_delete_matrix && lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && genhtml -o report coverage.info 
         
       - name: tests coverage
         uses: actions/upload-artifact@v2
