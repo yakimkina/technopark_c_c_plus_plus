@@ -11,9 +11,7 @@ jobs:
     needs: [check]
     steps:
       - uses: actions/checkout@v2 
-      - run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON --build . && ./tests/tests_delete_matrix && \
-      lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && \
-      genhtml -o report coverage.info 
+      - run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON --build . && ./tests/tests_delete_matrix && lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && genhtml -o report coverage.info 
       - uses: actions/upload-artifact@v2
       - with:
             name: coverage
