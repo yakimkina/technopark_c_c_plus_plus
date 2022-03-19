@@ -23,8 +23,8 @@ jobs:
       # - name: clang-tidy
       #   run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
 
-      - name: cpplint
-        run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
+      # - name: cpplint
+      #   run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
 
       - name: cppcheck
         run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
