@@ -38,5 +38,5 @@ jobs:
       - name: sanitizers
         run:  rm -rf build && mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build . 
       
-        - name: fbinfer
+      - name: fbinfer
         run:  VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer && rm -rf build && mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build . 
