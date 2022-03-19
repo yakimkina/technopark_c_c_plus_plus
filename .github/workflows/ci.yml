@@ -24,10 +24,10 @@ jobs:
       #   run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
 
       # - name: cpplint
-      #   run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
+        # run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
 
-      - name: cppcheck
-        run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
+      # - name: cppcheck
+      #   run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
       
       - name: scan-build
         run: mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
