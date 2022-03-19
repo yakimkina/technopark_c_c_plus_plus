@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: sources
-        run: sudo apt update -y && sudo apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint && sudo wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && tar xfv valgrind-3.18.1.tar.bz2 && cd valgrind-3.18.1 && ./autogen.sh && ./configure && make && make install
+        run: sudo apt update -y && sudo apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint
       
       - name: tests
         run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON --build . && ./tests/tests_delete_matrix && lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && genhtml -o report coverage.info 
@@ -38,5 +38,5 @@ jobs:
         run:  mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build . 
       
       - name: valgrind
-        run: valgrind --tool=memcheck --leak-check=yes ./delete_matrix
+        run: sudo wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && sudo tar xfv valgrind-3.18.1.tar.bz2 && sudo cd valgrind-3.18.1 && sudo ./autogen.sh && sudo ./configure && make && sudo make install && valgrind --tool=memcheck --leak-check=yes ./delete_matrix
 
