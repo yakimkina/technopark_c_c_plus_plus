@@ -7,6 +7,11 @@ option(TEST_MODE OFF)
 option(FBINFER OFF)
 option(SANITIZERS OFF)
 
+if (TEST_MODE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov")
+endif(TEST_MODE)
+
 if (FBINFER)
 	set(CMAKE_C_COMPILER "infer run -- ${CMAKE_C_COMPILER}")
 endif(FBINFER)
