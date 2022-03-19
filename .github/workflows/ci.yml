@@ -19,8 +19,9 @@ jobs:
         with:
             name: coverage
             path: report
-      - name: clang-tidy
-        run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
+
+      # - name: clang-tidy
+      #   run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
 
       - name: cpplint
         run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
