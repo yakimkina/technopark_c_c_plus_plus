@@ -30,14 +30,13 @@ jobs:
       #   run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
       
       - name: scan-build
-        run: mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
+        run: rm -rf build && mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
 
-      - name: fbinfer
-        run:  VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer && mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build . 
-
-      - name: sanitizers
-        run:  mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build . 
-      
       - name: valgrind
         run: sudo wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && sudo tar xfv valgrind-3.18.1.tar.bz2 && sudo cd valgrind-3.18.1 && sudo ./autogen.sh && sudo ./configure && make && sudo make install && valgrind --tool=memcheck --leak-check=yes ./delete_matrix
 
+      - name: sanitizers
+        run:  rm -rf build && mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build . 
+      
+        - name: fbinfer
+        run:  VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer && rm -rf build && mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build . 
