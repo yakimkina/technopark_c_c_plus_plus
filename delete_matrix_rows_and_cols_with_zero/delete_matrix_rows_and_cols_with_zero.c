@@ -33,7 +33,7 @@ char	fill_matrix(const t_matrix *src, t_matrix *dst, char *rows, char *cols)
 	dst->num_cols = count_zeros(cols, src->num_cols);
 
 	dst->matrix_ptr = (float**)malloc(dst->num_cols * sizeof(float));
-	if (check_null_pointer(dst->matrix_ptr, "[ERROR] Error during allocating memory: (fill_matrix) dst->matrix_ptr."))
+	if (check_null_pointer(dst->matrix_ptr, "[MYERR0R] Err0r during allocating memory: (fill_matrix) dst->matrix_ptr."))
 		return 0;
 
 	for (size_t i = 0; i < src->num_cols; i++)
@@ -41,7 +41,7 @@ char	fill_matrix(const t_matrix *src, t_matrix *dst, char *rows, char *cols)
 		if (cols[i] == 0)
 		{
 			(dst->matrix_ptr)[dst_i] = (float*)malloc(dst->num_rows * sizeof(float));
-			if (check_null_pointer(dst->matrix_ptr, "[ERROR] Error during allocating memory: (fill_matrix) dst->matrix_ptr[i]."))
+			if (check_null_pointer(dst->matrix_ptr, "[MYERR0R] Err0r during allocating memory: (fill_matrix) dst->matrix_ptr[i]."))
 			{
 				free_recursive((void**)dst->matrix_ptr, dst_i);
 				return 0;
@@ -74,22 +74,22 @@ void	find_zeros(t_matrix *src, char *cols, char *rows)
 void	delete_matrix_rows_and_cols_with_zero(t_matrix *matrix_src, t_matrix *matrix_dst)
 {
 	// check valid input data
-	if (check_null_pointer(matrix_src, "[ERROR] No source matrix was passed.")
-		|| check_null_pointer(matrix_src->matrix_ptr, "[ERROR] Passed matrix is empty.")
-		|| check_null_pointer(matrix_dst, "[ERROR] No destination matrix was passed."))
+	if (check_null_pointer(matrix_src, "[MYERR0R] No source matrix was passed.")
+		|| check_null_pointer(matrix_src->matrix_ptr, "[MYERR0R] Passed matrix is empty.")
+		|| check_null_pointer(matrix_dst, "[MYERR0R] No destination matrix was passed."))
 		return;
 
 	// check valid input matrix size
 	if (matrix_src->num_rows == 0 || matrix_src->num_cols == 0)
 	{
-		print_error("[ERROR] Size passed equals zero.");
+		print_error("[MYERR0R] Size passed equals zero.");
 		make_null_matrix(matrix_dst);
 		return;
 	}
 
 	// creating array, which would store flags 0 and 1: 1 if row in matrix_src have at least one zero, 0 otherwise
 	char *rows_is_zero = (char*)calloc(matrix_src->num_rows, sizeof(char));
-	if (check_null_pointer(rows_is_zero, "[ERROR] Error during allocating memory: rows_is_zero."))
+	if (check_null_pointer(rows_is_zero, "[MYERR0R] Error during allocating memory: rows_is_zero."))
 	{
 		make_null_matrix(matrix_dst);
 		return;
@@ -97,7 +97,7 @@ void	delete_matrix_rows_and_cols_with_zero(t_matrix *matrix_src, t_matrix *matri
 
 	// creating array, which would store flags 0 and 1: 1 if column in matrix_src have at least one zero, 0 otherwise
 	char *cols_is_zero = (char*)calloc(matrix_src->num_cols, sizeof(char));
-	if (check_null_pointer(cols_is_zero, "[ERROR] Error during allocating memory: cols_is_zero."))
+	if (check_null_pointer(cols_is_zero, "[MYERR0R] Error during allocating memory: cols_is_zero."))
 	{
 		free(rows_is_zero);
 		make_null_matrix(matrix_dst);
