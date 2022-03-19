@@ -4,6 +4,11 @@ project(delete_matrix_lib)
 file(GLOB SOURCES *.c)
 file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 
+if (TEST_MODE)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage -fPIC -O0" PARENT_SCOPE)
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" PARENT_SCOPE)
+endif(TEST_MODE)
+
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 set(DELETE_MATRIX_LIB_LIBRARIES ${PROJECT_NAME} PARENT_SCOPE)
