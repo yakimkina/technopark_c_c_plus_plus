@@ -1,61 +1,40 @@
 on: push
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 
-      - run: apt update -y && apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint && wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && tar xfv valgrind-3.18.1.tar.bz2 && cd valgrind-3.18.1 && ./autogen.sh && ./configure && make && make install && cd && VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
-  tests:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON --build . && ./tests/tests_delete_matrix && lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && genhtml -o report coverage.info 
-      - uses: actions/upload-artifact@v2
-      - with:
-            name: coverage
-            path: report
-  clang-tidy:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
-  cpplint: 
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
-  cppcheck:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
-  scan-build:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
-  fbinfer:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build . 
-  sanitizers:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run:  mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build . 
-  valgrind:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - uses: actions/checkout@v2 
-      - run: valgrind --tool=memcheck --leak-check=yes ./delete_matrix
+  runs-on: ubuntu-latest
+  
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: build
+      run: apt update -y && apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint && wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && tar xfv valgrind-3.18.1.tar.bz2 && cd valgrind-3.18.1 && ./autogen.sh && ./configure && make && make install && cd && VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer
+    
+    -name: tests
+      run: mkdir build && cd build && cmake .. && cmake -DTEST_MODE=ON --build . && ./tests/tests_delete_matrix && lcov -t "tests/tests_delete_matrix" -o coverage.info -c -d delete_matrix_rows_and_cols_with_zero/ && genhtml -o report coverage.info 
+      
+    - name: tests coverage
+    uses: actions/upload-artifact@v2
+    with:
+        name: coverage
+        path: report
+  - name: clang-tidy
+    run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
+
+  - name: cpplint
+    run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
+
+  - name: cppcheck
+    run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
+  
+  - name: scan-build
+    run: mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
+
+  - name: fbinfer
+    run: mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build . 
+
+  - name: sanitizers
+    run:  mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build . 
+  
+  - name: valgrind
+    run: valgrind --tool=memcheck --leak-check=yes ./delete_matrix
 
