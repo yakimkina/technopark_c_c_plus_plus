@@ -2,9 +2,10 @@
 // Created by Polina Yakimkina on 26.03.2022.
 //
 
-#include "search_max_sequence.h"
+#include "search_max_sequence_single_thread.h"
+
 // change max sequence on new
-void	update_max(const int *src, int **dst, size_t *len_dst, const size_t from, const size_t len)
+void	update_max_value(const int *src, int **dst, size_t *len_dst, const size_t from, const size_t len)
 {
 	// update length of sequence
 	*len_dst = len;
@@ -37,7 +38,7 @@ size_t	search_sequence_from_i(const int *srci, int **dst_seq, const size_t len, 
 }
 
 
-int	*search_max_sequence(const int *src, const size_t len, const int N)
+int	*search_max_sequence_single_thread(const int *src, const size_t len, const int N)
 {
 	int	*max_seq = NULL;
 	size_t	len_max_seq = 0;
@@ -48,11 +49,11 @@ int	*search_max_sequence(const int *src, const size_t len, const int N)
 
 		// if found sequence longer, should save it and delete previous
 		if (len_i > max_seq_len)
-			update_max(src, &max_seq, &len_max_seq, i, len_i);
+			update_max_value(src, &max_seq, &len_max_seq, i, len_i);
 
 		// if length of max found sequence is already more than length have left in source input,
 		// there is no point to continue, so break out of cycle
-		if (len_max_seq > len - i)
+		if (len_max_seq > (len - i))
 			break;
 	}
 

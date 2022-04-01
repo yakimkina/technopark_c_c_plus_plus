@@ -5,6 +5,6 @@
 #ifndef SEARCH_MAX_SEQUENCE_H
 #define SEARCH_MAX_SEQUENCE_H
 
-
+#include <stdio.h>
 
 #endif
