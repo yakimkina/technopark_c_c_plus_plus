@@ -2,61 +2,60 @@
 // Created by Polina Yakimkina on 26.03.2022.
 //
 
-#include "search_max_sequence_single_thread.h"
+#include "search_max_sequence_implementation.h"
+
+int	*create_array_contains_all_sum(const int *buf, const size_t len)
+{
+	int *arr = malloc(len * sizeof(int));
+	if (arr == NULL)
+	{
+		// free
+		return NULL;
+	}
+
+	arr[0] = buf[0];
+	for (size_t i = 1; i < len; i++)
+		arr[i] = arr[i - 1] + buf[i];
+
+	return arr;
+}
 
 // change max sequence on new
-void	update_max_value(const int *src, int **dst, size_t *len_dst, const size_t from, const size_t len)
+void	update_max_value(t_max_elem *old, t_max_elem *new)
 {
-	// update length of sequence
-	*len_dst = len;
-
-	int *dst_new = realloc(*dst, len);
-	//checks if ok
-
-	memcpy((void *)dst_new, (const void *)(src + from), len);
-	// checks if ok
+	old->begin_index = new->begin_index;
+	old->end_index = new->end_index;
+	old->length = new->length;
 }
 
+size_t	binary_search(const int *arr_sum, const size_t i, const size_t len, const int N)
+{
+	size_t	first = i;
+	size_t	last = len;
+	size_t	mid;
+
+	while (first < last)
+	{
+		mid = (first + last) / 2;
+		if (arr_sum[mid] < N)
+			first = mid + 1;
+		else
+			last = mid;
+	}
+//	printf("%zu", first);
+	return first;
+}
 
 // searches sequence starting from index i which sum less than N; returns length of found sequence
-size_t	search_sequence_from_i(const int *srci, int **dst_seq, const size_t len, const int N)
+t_max_elem	search_sequence_from_i(const int *arr_sum, const size_t i, const size_t len, const int N)
 {
-	long long int	cur_sum = 0;
-	size_t			len_cur_sum = 0;
+	t_max_elem	max_elem;
+	int	new_N = N + arr_sum[i - 1];
 
-	for (size_t j = 0; j < len; j++)
-	{
-		cur_sum += *(srci + j);
+	max_elem.begin_index = i;
+	max_elem.end_index = binary_search(arr_sum, i, len, new_N);
+//	printf("|%zu\n", max_elem.end_index);
+	max_elem.length = max_elem.end_index - max_elem.begin_index;
 
-		if (cur_sum > N)
-			break;
-
-		len_cur_sum += 1;
-	}
-
-	return len_cur_sum;
-}
-
-
-int	*search_max_sequence_single_thread(const int *src, const size_t len, const int N)
-{
-	int	*max_seq = NULL;
-	size_t	len_max_seq = 0;
-
-	for (size_t i = 0; i < len; i++)
-	{
-		len_i = search_sequence_from_i(&src[i], &max_seq, len, N);
-
-		// if found sequence longer, should save it and delete previous
-		if (len_i > max_seq_len)
-			update_max_value(src, &max_seq, &len_max_seq, i, len_i);
-
-		// if length of max found sequence is already more than length have left in source input,
-		// there is no point to continue, so break out of cycle
-		if (len_max_seq > (len - i))
-			break;
-	}
-
-	//dont forget about \0 -- or not ?
-	return max_seq;
+	return max_elem;
 }
