@@ -38,7 +38,7 @@ char	*search_max_sequence_one_thread(const int *buf, const size_t len, const int
 	if (arr_sum == NULL)
 		return NULL;
 
-	print_arr(arr_sum, len);
+//	print_arr(arr_sum, len);
 
 	t_max_elem	max_elem_cur;
 	for (size_t i = 0; i < len; i++)
@@ -99,7 +99,7 @@ char	*search_max_sequence_single_thread(const char *filename, const int N)
 
 	convert_buf_to_int(buf, int_buf, buf_len);
 
-	print_arr(int_buf, buf_len);
+//	print_arr(int_buf, buf_len);
 
 	char *max_seq = search_max_sequence_one_thread(int_buf, buf_len, N);
 
