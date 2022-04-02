@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(search_max_sequence)
 
-set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wall -Wpedantic -Wextra -Werror")
+set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-lpthread -Wall -Wpedantic -Wextra -Werror")
 
 option(TEST_MODE OFF)
 option(FBINFER OFF)
