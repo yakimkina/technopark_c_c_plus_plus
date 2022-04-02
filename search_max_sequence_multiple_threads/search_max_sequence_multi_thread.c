@@ -8,28 +8,28 @@
 
 pthread_mutex_t mutex;
 
-//void	print_arr(const int *arr, size_t len)
-//{
-//	for (size_t i = 0; i < len; i++)
-//		printf("%i, ", arr[i]);
-//	printf("\n");
-//}
-//
-//char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
-//{
-//	char *max_seq = malloc((elem.length + 1) * sizeof(char));
-//	if (max_seq == NULL)
-//	{
-//		print_free_and_null("[ERR0R] Can't allocacte memory to create char array.", (void**)&buf);
-//		return NULL;
-//	}
-//
-//	for (size_t i = 0; i < elem.length; i++)
-//		max_seq[i] = buf[elem.begin_index + i] + '0';
-//	max_seq[elem.length] = '\0';
-//
-//	return max_seq;
-//}
+static void	print_arr(const int *arr, size_t len)
+{
+	for (size_t i = 0; i < len; i++)
+		printf("%i, ", arr[i]);
+	printf("\n");
+}
+
+static char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
+{
+	char *max_seq = malloc((elem.length + 1) * sizeof(char));
+	if (max_seq == NULL)
+	{
+		print_free_and_null("[ERR0R] Can't allocacte memory to create char array.", (void**)&buf);
+		return NULL;
+	}
+
+	for (size_t i = 0; i < elem.length; i++)
+		max_seq[i] = buf[elem.begin_index + i] + '0';
+	max_seq[elem.length] = '\0';
+
+	return max_seq;
+}
 
 char	*search_max_sequence_multi_thread(const int *buf, const size_t len, const int N)
 {

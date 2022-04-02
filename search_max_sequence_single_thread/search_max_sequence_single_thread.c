@@ -5,14 +5,14 @@
 #include "search_max_sequence_single_thread.h"
 
 
-void	print_arr(const int *arr, size_t len)
+static void	print_arr(const int *arr, size_t len)
 {
 	for (size_t i = 0; i < len; i++)
 		printf("%i, ", arr[i]);
 	printf("\n");
 }
 
-char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
+static char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
 {
 	char *max_seq = malloc((elem.length + 1) * sizeof(char));
 	if (max_seq == NULL)
