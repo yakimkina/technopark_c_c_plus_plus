@@ -3,34 +3,35 @@
 //
 
 #include "search_max_sequence_multi_thread.h"
-#define NUM_PROC sysconf(_SC_NPROCESSORS_ONLN)/2
+#include <pthread.h>
+#define NUM_PROC sysconf(_SC_NPROCESSORS_ONLN)
 
 pthread_mutex_t mutex;
 
-void	print_arr(const int *arr, size_t len)
-{
-	for (size_t i = 0; i < len; i++)
-		printf("%i, ", arr[i]);
-	printf("\n");
-}
+//void	print_arr(const int *arr, size_t len)
+//{
+//	for (size_t i = 0; i < len; i++)
+//		printf("%i, ", arr[i]);
+//	printf("\n");
+//}
+//
+//char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
+//{
+//	char *max_seq = malloc((elem.length + 1) * sizeof(char));
+//	if (max_seq == NULL)
+//	{
+//		print_free_and_null("[ERR0R] Can't allocacte memory to create char array.", (void**)&buf);
+//		return NULL;
+//	}
+//
+//	for (size_t i = 0; i < elem.length; i++)
+//		max_seq[i] = buf[elem.begin_index + i] + '0';
+//	max_seq[elem.length] = '\0';
+//
+//	return max_seq;
+//}
 
-char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
-{
-	char *max_seq = malloc((elem.length + 1) * sizeof(char));
-	if (max_seq == NULL)
-	{
-		print_free_and_null("[ERR0R] Can't allocacte memory to create char array.", (void**)&buf);
-		return NULL;
-	}
-
-	for (size_t i = 0; i < elem.length; i++)
-		max_seq[i] = buf[elem.begin_index + i] + '0';
-	max_seq[elem.length] = '\0';
-
-	return max_seq;
-}
-
-char	*search_max_sequence_single_thread(const int *buf, const size_t len, const int N)
+char	*search_max_sequence_multi_thread(const int *buf, const size_t len, const int N)
 {
 	t_max_elem max_elem = {.length = 0};
 
@@ -55,20 +56,17 @@ char	*search_max_sequence_single_thread(const int *buf, const size_t len, const 
 
 	for (size_t i = 0; i < len; i += NUM_PROC)
 	{
-		pthread_t search_thread;
 		for (int j = 0; j < NUM_PROC; j++)
 		{
 			args_search args = {.arr_sum = arr_sum, .i = i, .len = len, .N = N};
-			printf("hear\n");
-			int errflag = pthread_create(&search_thread, NULL, search_sequence_from_i, (void*)&args);
-			printf("hear1\n");
+			arr_threads[j] = malloc(1 * sizeof(pthread_t));
+			int errflag = pthread_create(arr_threads[j], NULL, search_sequence_from_i, (void*)&args);
 			if (errflag != 0)
 			{
 				print_free_and_null("[ERR0R] Can't create thread during reading file.\n", (void**)&buf);
 				free(arr_sum);
 				return NULL;
 			}
-			printf("hear2\n");
 			// if found sequence longer, should save it
 			if (args.max_elem.length > max_elem.length)
 			{
@@ -76,9 +74,10 @@ char	*search_max_sequence_single_thread(const int *buf, const size_t len, const 
 				update_max_value(&max_elem, &max_elem_cur);
 				pthread_mutex_unlock(&mutex);
 			}
-			printf("hear3\n");
-			arr_threads[j] = &search_thread;
-			printf("arr0: %p\n", (void*)&search_thread);
+//			arr_threads[j] = &search_thread;
+			printf("arr0: %p\n", (void*)arr_threads[j]);
+			if (j > 1)
+				printf("arr01: %p\n", (void*)arr_threads[j-1]);
 
 		}
 
@@ -105,11 +104,11 @@ char	*search_max_sequence_single_thread(const int *buf, const size_t len, const 
 }
 
 
-void	convert_buf_to_int(const char *char_buf, int *int_buf, const size_t len)
-{
-	for (size_t i = 0; i < len; i++)
-		int_buf[i] = char_buf[i] - '0';
-}
+//void	convert_buf_to_int(const char *char_buf, int *int_buf, const size_t len)
+//{
+//	for (size_t i = 0; i < len; i++)
+//		int_buf[i] = char_buf[i] - '0';
+//}
 
 
 char	*search_max_sequence_multithread(const char *filename, const int N)
@@ -130,7 +129,7 @@ char	*search_max_sequence_multithread(const char *filename, const int N)
 
 	print_arr(int_buf, buf_len);
 
-	char *max_seq = search_max_sequence_single_thread(int_buf, buf_len, N);
+	char *max_seq = search_max_sequence_multi_thread(int_buf, buf_len, N);
 
 	free(buf);
 

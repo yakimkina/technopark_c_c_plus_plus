@@ -7,7 +7,7 @@
 
 pthread_mutex_t mutex;
 
-void	*read_file_to_buffer(void *args)
+void	*read_file_to_buffer_multi(void *args)
 {
 	char *buf_cur;
 	size_t num_read_chars;
@@ -70,7 +70,7 @@ char	*read_from_file_multithread(const char *filename)
 	args_read_file args = {.file = file_src, .buffer = &buf};
 	pthread_attr_t tattr;
 	pthread_attr_setdetachstate(&tattr, PTHREAD_CREATE_DETACHED);
-	int errflag = pthread_create(&read_thread, &tattr, read_file_to_buffer, (void*)&args);
+	int errflag = pthread_create(&read_thread, &tattr, read_file_to_buffer_multi, (void*)&args);
 	if (errflag != 0)
 	{
 		print_error("[ERR0R] Can't create thread during reading file.");
