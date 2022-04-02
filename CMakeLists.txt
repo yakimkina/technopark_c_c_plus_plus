@@ -26,6 +26,9 @@ endif(SANITIZERS)
 add_subdirectory(search_max_sequence_single_thread)
 add_subdirectory(search_max_sequence_multiple_threads)
 
+find_package(Threads REQUIRED)
+target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC Threads::Threads)
+
 add_executable(${PROJECT_NAME} main.c)
 
 #target_link_libraries(${PROJECT_NAME} PUBLIC ${CMAKE_THREAD_LIBS_INIT})

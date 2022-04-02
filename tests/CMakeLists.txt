@@ -8,7 +8,8 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov" )
 file(GLOB SOURCES *.cpp)
 
 find_package(GTest REQUIRED)
-
+find_package(Threads REQUIRED)
+target_link_libraries(${CMAKE_PROJECT_NAME} Threads::Threads)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${DELETE_MATRIX_LIB_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} ${DELETE_MATRIX_LIB_LIBRARIES} GTest::gtest_main)

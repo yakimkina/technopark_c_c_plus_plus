@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.0.0)
 project(search_max_sequence_multi_thread_lib)
 
 include_directories(search_max_sequence_implementation)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-
 
 file(GLOB SOURCES *.c) #search_max_sequence_implementation/*.c)
 file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
