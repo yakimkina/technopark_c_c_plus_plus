@@ -14,7 +14,7 @@ TEST(TestBasic, 1)
 	char *max = search_max_sequence_single_thread("../tests/tests_sample/testBasic1.txt", 7);
 	free(max);
 
-	EXPECT_EQ(max, "123");
+	EXPECT_EQ(strcmp(max, "123"), 0);
 }
 
 TEST(TestBasic, 2)
@@ -22,5 +22,5 @@ TEST(TestBasic, 2)
 	char *max = search_max_sequence_single_thread("../tests/tests_sample/testBasic1.txt", 7);
 	free(max);
 
-	EXPECT_EQ(max, "111111111");
+	EXPECT_EQ(strcmp(max, "111111111"), 0);
 }
