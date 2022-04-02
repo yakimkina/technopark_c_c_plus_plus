@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: sources
-        run: sudo apt update -y && sudo apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov pthread && pip install cpplint
+        run: sudo apt update -y && sudo apt install -y pthread cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint
       
       - name: tests
         run: mkdir build && cd build && cmake -DTEST_MODE=ON .. && cmake --build . && ./tests/tests_search_max_sequence && tree && lcov -t "tests/tests_search_max_sequence" -o coverage.info -c -d search_max_sequence_single_thread/ && genhtml -o report coverage.info && tree
