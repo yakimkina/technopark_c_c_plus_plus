@@ -27,7 +27,7 @@ add_subdirectory(search_max_sequence_multiple_threads)
 
 add_executable(${PROJECT_NAME} main.c)
 
-target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(${PROJECT_NAME} PUBLIC ${SEARCH_MAX_SEQUENCE_SINGLE_THREAD_LIB_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${SEARCH_MAX_SEQUENCE_SINGLE_THREAD_LIB_LIBRARIES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${SEARCH_MAX_SEQUENCE_MULTI_THREAD_LIB_INCLUDE_DIRS})
