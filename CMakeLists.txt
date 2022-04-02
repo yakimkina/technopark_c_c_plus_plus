@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 project(search_max_sequence)
 
 set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-Wall -Wpedantic -Wextra -Werror")
-#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
 
 option(TEST_MODE OFF)
 option(FBINFER OFF)
@@ -26,8 +26,8 @@ endif(SANITIZERS)
 add_subdirectory(search_max_sequence_single_thread)
 add_subdirectory(search_max_sequence_multiple_threads)
 
-find_package(Threads REQUIRED)
-target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC Threads::Threads)
+#find_package(Threads REQUIRED)
+#target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC Threads::Threads)
 
 add_executable(${PROJECT_NAME} main.c)
 
