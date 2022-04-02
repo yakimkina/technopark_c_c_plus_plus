@@ -8,6 +8,8 @@
 #include "search_max_sequence_single_thread/search_max_sequence_single_thread.h"
 #include "search_max_sequence_multiple_threads/search_max_sequence_multi_thread.h"
 
+#define CLK_TCK         __DARWIN_CLK_TCK
+
 int main()
 {
 	clock_t start, stop;
