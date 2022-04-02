@@ -52,11 +52,12 @@ char	*search_max_sequence_single_thread(const int *buf, const size_t len, const 
 		return NULL;
 	}
 
+
 	for (size_t i = 0; i < len; i += NUM_PROC)
 	{
+		pthread_t search_thread;
 		for (int j = 0; j < NUM_PROC; j++)
 		{
-			pthread_t search_thread;
 			args_search args = {.arr_sum = arr_sum, .i = i, .len = len, .N = N};
 			printf("hear\n");
 			int errflag = pthread_create(&search_thread, NULL, search_sequence_from_i, (void*)&args);
