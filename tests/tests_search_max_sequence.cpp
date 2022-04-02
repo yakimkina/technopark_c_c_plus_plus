@@ -22,7 +22,7 @@ TEST(TestBasic, 1)
 
 TEST(TestBasic, 2)
 {
-	char *max = search_max_sequence_single_thread("../tests/tests_sample/testBasic1.txt", 7);
+	char *max = search_max_sequence_single_thread("../tests/tests_sample/testBasic1.txt", 17);
 	printf("%s\n", max);
 	free(max);
 
