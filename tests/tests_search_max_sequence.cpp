@@ -3,6 +3,8 @@
 //
 
 #include <gtest/gtest.h>
+#include <stdio.h>
+#include <string.h>
 
 extern "C" {
 #include "../search_max_sequence_single_thread/search_max_sequence_single_thread.h"
@@ -12,6 +14,7 @@ extern "C" {
 TEST(TestBasic, 1)
 {
 	char *max = search_max_sequence_single_thread("../tests/tests_sample/testBasic1.txt", 7);
+	printf("%s\n", max);
 	free(max);
 
 	EXPECT_EQ(strcmp(max, "123"), 0);
@@ -20,6 +23,7 @@ TEST(TestBasic, 1)
 TEST(TestBasic, 2)
 {
 	char *max = search_max_sequence_single_thread("../tests/tests_sample/testBasic1.txt", 7);
+	printf("%s\n", max);
 	free(max);
 
 	EXPECT_EQ(strcmp(max, "111111111"), 0);
