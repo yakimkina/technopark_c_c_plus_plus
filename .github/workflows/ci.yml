@@ -9,34 +9,34 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: sources
-        run: sudo apt update -y && sudo apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint
-      
+        run: sudo apt update -y && sudo apt install -y cppcheck pthread clang-tidy clang-tools python3-pip libc6-dbg cmake libgtest-dev lcov && pip install cpplint
+
       - name: tests
         run: mkdir build && cd build && cmake -DTEST_MODE=ON .. && cmake --build . && ./tests/tests_search_max_sequence && tree && lcov -t "tests/tests_search_max_sequence" -o coverage.info -c -d search_max_sequence_single_thread/ && genhtml -o report coverage.info && tree
-        
+
       - name: tests coverage
         uses: actions/upload-artifact@v2
         with:
-            name: coverage
-            path: build/report
-      
-      - name: scan-build
-        run: rm -rf build && mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
+          name: coverage
+          path: build/report
 
-       - name: valgrind
-         run: sudo wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && sudo tar xfv valgrind-3.18.1.tar.bz2 && cd valgrind-3.18.1 && sudo ./autogen.sh && sudo ./configure && make && sudo make install && cd .. && valgrind --tool=memcheck --leak-check=yes ./search_max_sequence
+        # - name: clang-tidy
+        #   run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
 
-      # - name: sanitizers
-      #   run:  rm -rf build && mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build .
-        
-      # - name: clang-tidy
-      #   run: clang-tidy delete_matrix_rows_and_cols_with_zero/ -warnings-as-errors=* --filter=-runtime/reference
-
-      # - name: cpplint
-      # run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
+        # - name: cpplint
+        # run: cpplint --extensions=c delete_matrix_rows_and_cols_with_zero/*.h delete_matrix_rows_and_cols_with_zero/*.c
 
       # - name: cppcheck
       #   run: cppcheck delete_matrix_rows_and_cols_with_zero/ --enable=all --inconclusive --error-exitcode=1 --suppress=missingIncludeSystem
 
+      - name: scan-build
+        run: rm -rf build && mkdir build && cd build && scan-build cmake .. && scan-build cmake --build .
+
+      # - name: valgrind
+      #   run: sudo wget https://sourceware.org/pub/valgrind/valgrind-3.18.1.tar.bz2 && sudo tar xfv valgrind-3.18.1.tar.bz2 && cd valgrind-3.18.1 && sudo ./autogen.sh && sudo ./configure && make && sudo make install && valgrind --tool=memcheck --leak-check=yes ./delete_matrix
+
+      # - name: sanitizers
+      #   run:  rm -rf build && mkdir build && cd build && cmake .. && cmake -DSANITIZERS=address,memory,undefined,thread --build .
+
       # - name: fbinfer
-      #   run:  VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer && rm -rf build && mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build . 
+      #   run:  VERSION=1.1.0; curl -sSL "https://github.com/facebook/infer/releases/download/v$VERSION/infer-linux64-v$VERSION.tar.xz" | tar -C /opt -xJ && ln -s "/opt/infer-linux64-v$VERSION/bin/infer" /usr/local/bin/infer && rm -rf build && mkdir build && cd build && cmake .. && cmake -DFBINFER=ON --build .
