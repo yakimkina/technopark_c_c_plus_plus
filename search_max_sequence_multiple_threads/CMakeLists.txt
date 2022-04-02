@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.0.0)
 project(search_max_sequence_multi_thread_lib)
 
-file(GLOB SOURCES *.c ${CMAKE_SOURCE_DIR}/search_max_sequence_implementation/*.c)
+include_directories(search_max_sequence_implementation)
+
+file(GLOB SOURCES *.c) #search_max_sequence_implementation/*.c)
 file(GLOB INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-file(GLOB INCLUDE_DIRS "${INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/search_max_sequence_implementation")
+#file(GLOB INCLUDE_DIRS search_max_sequence_implementation/)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 

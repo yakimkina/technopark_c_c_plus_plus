@@ -2,7 +2,8 @@
 // Created by Polina Yakimkina on 29.03.2022.
 //
 
-#include "search_max_sequence.h"
+#include "search_max_sequence_single_thread.h"
+
 
 void	print_arr(const int *arr, size_t len)
 {
@@ -14,27 +15,28 @@ void	print_arr(const int *arr, size_t len)
 char	*get_sequence_of_chars_from_element(const int *buf, t_max_elem elem)
 {
 	char *max_seq = malloc((elem.length + 1) * sizeof(char));
-	//            if max_seq == NULL
+	if (max_seq == NULL)
+	{
+		print_free_and_null("[ERR0R] Can't allocacte memory to create char array.", (void**)&buf);
+		return NULL;
+	}
 
 	for (size_t i = 0; i < elem.length; i++)
 		max_seq[i] = buf[elem.begin_index + i] + '0';
 	max_seq[elem.length] = '\0';
 
-	printf("%zu|%zu|%zu\n", elem.begin_index, elem.end_index, elem.length);
+//	printf("%zu|%zu|%zu\n", elem.begin_index, elem.end_index, elem.length);
 
 	return max_seq;
 }
 
-char	*search_max_sequence_single_thread(const int *buf, const size_t len, const int N)
+char	*search_max_sequence_one_thread(const int *buf, const size_t len, const int N)
 {
 	t_max_elem max_elem = {.length = 0};
 
 	int *arr_sum = create_array_contains_all_sum(buf, len);
 	if (arr_sum == NULL)
-	{
-		// ..
 		return NULL;
-	}
 
 	print_arr(arr_sum, len);
 
@@ -53,6 +55,7 @@ char	*search_max_sequence_single_thread(const int *buf, const size_t len, const 
 			break;
 	}
 
+	free(arr_sum);
 	return get_sequence_of_chars_from_element(buf, max_elem);
 }
 
@@ -64,7 +67,7 @@ void	convert_buf_to_int(const char *char_buf, int *int_buf, const size_t len)
 }
 
 
-char	*search_max_sequence(const char *filename, const int N)
+char	*search_max_sequence_single_thread(const char *filename, const int N)
 {
 	// open file
 	FILE	*file_src =  fopen(filename, "r");
@@ -75,7 +78,7 @@ char	*search_max_sequence(const char *filename, const int N)
 	}
 
 	char	*buf = NULL;
-	read_file_to_buffer(file_src, &buf);    // thread new
+	read_file_to_buffer(file_src, &buf);
 	//	printf("BUFFER: %s\n", buf);
 
 	// close file
@@ -88,12 +91,19 @@ char	*search_max_sequence(const char *filename, const int N)
 
 	size_t buf_len = strlen(buf);
 	int *int_buf = malloc(buf_len * sizeof(int));
-	// if null
+	if (int_buf == NULL)
+	{
+		print_free_and_null("[ERR0R] Can't allocacte memory to create int array.", (void**)&buf);
+		return NULL;
+	}
 
-	// sleep another thread
 	convert_buf_to_int(buf, int_buf, buf_len);
 
 	print_arr(int_buf, buf_len);
 
- 	return search_max_sequence_single_thread(int_buf, buf_len, N);
+	char *max_seq = search_max_sequence_one_thread(int_buf, buf_len, N);
+
+	free(buf);
+
+	return max_seq;
 }
