@@ -21,7 +21,7 @@ int	*create_array_contains_all_sum(const int *buf, const size_t len)
 }
 
 // change max sequence on new
-void	update_max_value(t_max_elem *old, t_max_elem *new)
+void	update_max_value(t_max_elem *old_elem, t_max_elem *new_elem)
 {
 	old_elem->begin_index = new_elem->begin_index;
 	old_elem->end_index = new_elem->end_index;
