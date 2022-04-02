@@ -23,9 +23,9 @@ int	*create_array_contains_all_sum(const int *buf, const size_t len)
 // change max sequence on new
 void	update_max_value(t_max_elem *old, t_max_elem *new)
 {
-	old->begin_index = new->begin_index;
-	old->end_index = new->end_index;
-	old->length = new->length;
+	old_elem->begin_index = new_elem->begin_index;
+	old_elem->end_index = new_elem->end_index;
+	old_elem->length = new_elem->length;
 }
 
 size_t	binary_search(const int *arr_sum, const size_t i, const size_t len, const int N)
