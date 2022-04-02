@@ -104,11 +104,11 @@ char	*search_max_sequence_multi_thread(const int *buf, const size_t len, const i
 }
 
 
-//void	convert_buf_to_int(const char *char_buf, int *int_buf, const size_t len)
-//{
-//	for (size_t i = 0; i < len; i++)
-//		int_buf[i] = char_buf[i] - '0';
-//}
+static void	convert_buf_to_int(const char *char_buf, int *int_buf, const size_t len)
+{
+	for (size_t i = 0; i < len; i++)
+		int_buf[i] = char_buf[i] - '0';
+}
 
 
 char	*search_max_sequence_multithread(const char *filename, const int N)
