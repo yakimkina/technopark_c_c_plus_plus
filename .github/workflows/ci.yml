@@ -14,7 +14,7 @@ jobs:
       - name: tests
         run: mkdir build && cd build && cmake -DTEST_MODE=ON .. && cmake --build . && ./tests/tests_search_max_sequence && tree && lcov -t "tests/tests_search_max_sequence" -o coverage.info -c -d search_max_sequence_single_thread/ && genhtml -o report coverage.info && tree
 
-      - name: tests coverage
+      - name: coverage
         uses: actions/upload-artifact@v2
         with:
           name: coverage
