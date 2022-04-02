@@ -39,7 +39,7 @@ char	*search_max_sequence_multi_thread(const int *buf, const size_t len, const i
 	if (arr_sum == NULL)
 		return NULL;
 
-	print_arr(arr_sum, len);
+//	print_arr(arr_sum, len);
 //	long number_of_processors = sysconf(_SC_NPROCESSORS_ONLN);
 
 	printf("proc: %li\n", NUM_PROC);
@@ -127,7 +127,7 @@ char	*search_max_sequence_multithread(const char *filename, const int N)
 
 	convert_buf_to_int(buf, int_buf, buf_len);
 
-	print_arr(int_buf, buf_len);
+//	print_arr(int_buf, buf_len);
 
 	char *max_seq = search_max_sequence_multi_thread(int_buf, buf_len, N);
 
