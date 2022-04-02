@@ -12,7 +12,7 @@ jobs:
         run: sudo apt update -y && sudo apt install -y cppcheck clang-tidy clang-tools python3-pip libc6-dbg cmake libpthread-stubs0-dev libgtest-dev lcov && pip install cpplint
 
       - name: tests
-        run: mkdir build && cd build && cmake -DTEST_MODE=ON .. && cmake --build . && ./tests/tests_search_max_sequence && tree && lcov -t "tests/tests_search_max_sequence" -o coverage.info -c -d search_max_sequence_single_thread/ -d search_max_sequence_multi_thread/ && genhtml -o report coverage.info && tree
+        run: mkdir build && cd build && cmake -DTEST_MODE=ON .. && cmake --build . && ./tests/tests_search_max_sequence && tree && lcov -t "tests/tests_search_max_sequence" -o coverage.info -c -d search_max_sequence_single_thread/ && genhtml -o report coverage.info && tree
 
       - name: tests coverage
         uses: actions/upload-artifact@v2
